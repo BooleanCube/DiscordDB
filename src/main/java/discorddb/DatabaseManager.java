@@ -1,8 +1,6 @@
 package discorddb;
 
 
-import discorddb.model.DatabaseObject;
-
 import javax.naming.LimitExceededException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,12 +10,17 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+/**
+ * Database Manager for Discord DB library
+ */
 public class DatabaseManager {
 
     private static final HashMap<String, DatabaseObject> databases;
-
     private static final String directory = Paths.get("").toAbsolutePath() + "/src/main/java/discorddb/files/";
 
+    /**
+     * Static block to init all the current databases and caches
+     */
     static {
         databases = new HashMap<>();
         File filesFolder = new File(directory);
@@ -32,6 +35,14 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Creates a database file and adds it to the cache
+     * @param dbName
+     * @return boolean indicating success or failure
+     * @throws LimitExceededException 10 databases at max
+     * @throws FileAlreadyExistsException no duplicate databases can be created
+     * @throws FileNotFoundException could not find directory
+     */
     public static boolean createDatabase(String dbName) throws LimitExceededException, FileAlreadyExistsException, FileNotFoundException {
         if(databases.size() >= 10)
             throw new LimitExceededException("Cannot create more than 10 databases!");
@@ -58,6 +69,11 @@ public class DatabaseManager {
         return true;
     }
 
+    /**
+     * Returns the database object based on the database name
+     * @param dbName database name
+     * @return DatabaseObject representing a database
+     */
     public static DatabaseObject getDatabase(String dbName) {
         if(!databases.containsKey(dbName)) return null;
         return databases.get(dbName);

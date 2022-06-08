@@ -21,6 +21,7 @@ An Example of where this kind of database can be used may be to keep track of cu
 
 ## Documentation
 `DatabaseManager` is the main database manager class which will give you access to every database.
+`DatabaseObject` is the database object class with all the methods to access the data within the database.
 
 ```java
 

@@ -20,7 +20,7 @@ An Example of where this kind of database can be used may be to keep track of cu
 2. Download the source code and add it to your project. You can manually download and drag it into your project or you can download using git (`git clone https://github.com/BooleanCube/DiscordDB`). This project currently does not exist as a maven repository so manually installing the latest stable build will be the only way of using the library.
 
 ## Documentation
-`DatabaseManager` is the main database manager class which will give you access to every database.
+`DatabaseManager` is the main database manager class which will give you access to every database. <br>
 `DatabaseObject` is the database object class with all the methods to access the data within the database.
 
 ```java

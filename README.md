@@ -29,61 +29,66 @@ An Example of where this kind of database can be used may be to keep track of cu
  * Creates a database file and adds it to the cache
  * @param dbName database name
  * @return boolean indicating success or failure
+ * @throws LimitExceededException 10 databases at max
+ * @throws FileAlreadyExistsException no duplicate databases can be created
+ * @throws FileNotFoundException could not find directory
  */
 DatabaseManager.createDatabase("database_name");
 
 /**
- * Stores the returned DatabaseObject in "database" by using the "database_name"
+ * Returns the database object based on the database name
  * @param dbName database name
- * @return DatabaseObject representing a database
+ * @return {@link DatabaseObject} representing a database
  */
 DatabaseObject database = DatabaseManager.getDatabase("database_name");
 
 /**
  * Get database name
- * @return Database name
+ * @return String with database name
  */
 database.getName();
 
 /**
- * Get value from the given key from cache
+ * Get value given key from the cache
  * @param key String key
- * @return value corresponding to key
+ * @return String value corresponding to key
  */
 database.getValue("key");
 
 /**
- * Get value from the given key as an integer from cache
+ * Get value given key as integer from the cache
  * @param key String key
- * @return int value corresponding to key
+ * @return Integer value corresponding to key
  */
 database.getValueInt("key");
 
 /**
- * Get value from the given key as a long from cache
+ * Get value given key as a long from the cache
  * @param key String key
- * @return long value corresponding to key
+ * @return Long value corresponding to key
  */
 database.getValueLong("key");
 
 /**
- * Update value at key, add if key does not exist.
- * from both database and cache
- * @param key key to new value
- * @param value new value
+ * Update value at key, Add if key does not exist
+ * (both database and cache)
+ * @param key key String to new value
+ * @param value new value String
  */
 database.updateValue("key", "value");
 
 /**
- * Add key to value relationship to both database and cache
- * @param key key of value
- * @param value value corresponding to key
+ * Add key to value relationship
+ * (both database and cache)
+ * @param key key String of value
+ * @param value value String corresponding to key
  */
 database.addKey("key", "value");
 
 /**
- * Remove key from both database and cache
- * @param key key to be removed
+ * Remove key
+ * both database and cache
+ * @param key key String to be removed
  */
 database.removeKey("key");
 

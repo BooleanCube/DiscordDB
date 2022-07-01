@@ -8,9 +8,10 @@ if [ "$JV" != 16 ]; then
 	case "$1" in
 	install)
 		echo "Installing SDKMAN..."
-		curl -s "https://get.sdkman.io" | bash
+		sudo curl -s "https://get.sdkman.io" | bash
 		# shellcheck disable=SC1090
-		source ~/.sdkman/bin/sdkman-init.sh
+		# shellcheck disable=SC2232
+		sudo source ~/.sdkman/bin/sdkman-init.sh
 		sdk version
 		sdk install java 16.0.1-adpt
 		;;

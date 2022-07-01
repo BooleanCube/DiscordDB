@@ -22,6 +22,7 @@ Latest Release: [Github Releases](https://github.com/BooleanCube/DiscordDB/relea
 
 Replace `VERSION` with the latest release in Jitpack. If you want to use SNAPSHOTS, please follow the instructions on the [Jitpack page](https://jitpack.io/#BooleanCube/DiscordDB)
 
+### Maven
 #### Dependency
 ```xml
 <dependencies>

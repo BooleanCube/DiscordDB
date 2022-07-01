@@ -6,7 +6,7 @@
 
     <groupId>com.github.BooleanCube</groupId>
     <artifactId>DiscordDB</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <build>
         <plugins>
             <plugin>
@@ -34,14 +34,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>16</source>
-                    <target>16</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>

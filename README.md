@@ -18,6 +18,9 @@ An Example of where this kind of database can be used may be to keep track of cu
 ## Installation
 [![](https://jitpack.io/v/BooleanCube/DiscordDB.svg)](https://jitpack.io/#BooleanCube/DiscordDB)
 
+Latest Release: [Github Releases](https://github.com/BooleanCube/DiscordDB/releases)
+
+
 
 ## Documentation
 `DatabaseManager` is the main database manager class which will give you access to every database. <br>

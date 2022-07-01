@@ -34,7 +34,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Creates a {@link DatabaseObject} with a designated file and adds it to the database cache
+     * Creates a {@link DatabaseObject} with a designated file and adds it to the database map
      * @param dbName name of the {@link DatabaseObject}
      * @return boolean indicating success or failure of {@link DatabaseObject} creation
      * @throws LimitExceededException cannot create more than 10 databases per project for simplicity
@@ -42,6 +42,8 @@ public class DatabaseManager {
      * @throws FileNotFoundException could not find database file directory
      */
     public static boolean createDatabase(String dbName) throws LimitExceededException, FileAlreadyExistsException, FileNotFoundException {
+        if(dbName == null)
+            throw new NullPointerException("The database name cannot be null!");
         if(databases.size() >= 10)
             throw new LimitExceededException("Cannot create more than 10 databases!");
         if(databases.containsKey(dbName))
@@ -67,13 +69,39 @@ public class DatabaseManager {
     }
 
     /**
-     * Returns the {@link DatabaseObject} connected to the database name given from the database cache
+     * Returns the {@link DatabaseObject} connected to the database name given from the database map
      * @param dbName name of {@link DatabaseObject}
      * @return {@link DatabaseObject} representing a database
      */
     public static DatabaseObject getDatabase(String dbName) {
         if(!databases.containsKey(dbName)) return null;
         return databases.get(dbName);
+    }
+
+    /**
+     * Deletes every database including all the data within the databases.<br>
+     * <b>(WARNING! THIS STEP CANNOT BE UNDONE!)</b>
+     */
+    public static boolean clearDatabases() {
+        File filesFolder = new File("files/");
+        if(!filesFolder.exists()) return true;
+        boolean ret = true;
+        for(File file : filesFolder.listFiles()) {
+            if(!file.delete()) ret = false;
+        }
+        databases.clear();
+        return ret;
+    }
+
+    /**
+     * Delete a database and all of its data from the database map.<br>
+     * <b>(WARNING! THIS ACTION CANNOT BE UNDONE!)</b>
+     * @param dbName name of {@link DatabaseObject}
+     * @return boolean indicating whether the {@link DatabaseObject} was successfully deleted or not
+     */
+    public static boolean deleteDatabase(String dbName) {
+        DatabaseObject database = databases.get(dbName);
+        return database.delete();
     }
 
 }

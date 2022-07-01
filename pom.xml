@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.boole.</groupId>
+    <groupId>org.boole</groupId>
     <artifactId>DiscordDB</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
@@ -36,6 +36,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.36</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-migration-support</artifactId>
+            <version>5.0.0-M4</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

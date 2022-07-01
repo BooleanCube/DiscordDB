@@ -3,7 +3,9 @@ package discorddb;
 import net.dv8tion.jda.api.utils.data.DataObject;
 
 import java.io.*;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Model for Database Object
@@ -38,11 +40,45 @@ public class DatabaseObject {
     }
 
     /**
+     * Delete a {@link DatabaseObject} and all of the data within the database. This will clear the cache and delete the file.<br>
+     * <b>(WARNING! THIS STEP CANNOT BE UNDONE!)</b>
+     * @return boolean indicating success of failure of the deletion of the {@link DatabaseObject}
+     */
+    protected boolean delete() {
+        this.cache.clear();
+        return this.dbFile.delete();
+    }
+
+    /**
      * Get name of {@link DatabaseObject}
      * @return {@link String} name of {@link DatabaseObject}
      */
     public String getName() {
         return dbName;
+    }
+
+    /**
+     * Get JSON {@link File} of {@link DatabaseObject}
+     * @return JSON {@link File} with all of the data
+     */
+    public File getFile() {
+        return dbFile;
+    }
+
+    /**
+     * Get all of the keys stored inside the database
+     * @return {@link Set <String>} string set of keys
+     */
+    public Set<String> getKeys() {
+        return cache.keySet();
+    }
+
+    /**
+     * Get all of the values stored inside the database
+     * @return {@link Collection <String>} string collection of values
+     */
+    public Collection<String> getValues() {
+        return cache.values();
     }
 
     /**

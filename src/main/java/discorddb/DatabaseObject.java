@@ -95,10 +95,10 @@ public class DatabaseObject {
     }
 
     /**
-     * Add key to value relationship
-     * both database and cache
-     * @param key key of value
-     * @param value value corresponding to key
+     * Add key to value relationship.<br>
+     * Adds the key to value relationship to the cache and updates the database file in a separate thread.
+     * @param key {@link String} key of value
+     * @param value {@link String} value corresponding to key
      */
     public void addKey(String key, String value) {
         cache.put(key, value);
@@ -106,9 +106,9 @@ public class DatabaseObject {
     }
 
     /**
-     * Remove key
-     * both database and cache
-     * @param key key to be removed
+     * Remove key to value relationship.<br>
+     * Removes the key to value relationship from the cache and updates the database file in a separate thread.
+     * @param key {@link String} key to be removed
      */
     public void removeKey(String key) {
         cache.remove(key);

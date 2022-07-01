@@ -16,11 +16,9 @@ import java.util.HashMap;
 public class DatabaseManager {
 
     private static final HashMap<String, DatabaseObject> databases;
-    private static final String directory = Paths.get("").toAbsolutePath() + "/src/main/java/discorddb/files/";
+    private static final String directory = "files/";
 
-    /**
-     * Static block to init all the current databases and caches
-     */
+    // Static block to init all the current databases and caches
     static {
         databases = new HashMap<>();
         File filesFolder = new File(directory);
@@ -36,12 +34,12 @@ public class DatabaseManager {
     }
 
     /**
-     * Creates a database file and adds it to the cache
-     * @param dbName
-     * @return boolean indicating success or failure
-     * @throws LimitExceededException 10 databases at max
+     * Creates a {@link DatabaseObject} with a designated file and adds it to the database cache
+     * @param dbName name of the {@link DatabaseObject}
+     * @return boolean indicating success or failure of {@link DatabaseObject} creation
+     * @throws LimitExceededException cannot create more than 10 databases per project for simplicity
      * @throws FileAlreadyExistsException no duplicate databases can be created
-     * @throws FileNotFoundException could not find directory
+     * @throws FileNotFoundException could not find database file directory
      */
     public static boolean createDatabase(String dbName) throws LimitExceededException, FileAlreadyExistsException, FileNotFoundException {
         if(databases.size() >= 10)
@@ -60,8 +58,7 @@ public class DatabaseManager {
                     System.out.println("Successfully created the database file!");
                 }
             }
-            else
-                throw new FileAlreadyExistsException("This database file has already been created!");
+            else throw new FileAlreadyExistsException("This database file has already been created!");
         } catch(IOException ignored) {
             throw new FileNotFoundException("There is no such directory/file!");
         }
@@ -70,9 +67,9 @@ public class DatabaseManager {
     }
 
     /**
-     * Returns the database object based on the database name
-     * @param dbName database name
-     * @return DatabaseObject representing a database
+     * Returns the {@link DatabaseObject} connected to the database name given from the database cache
+     * @param dbName name of {@link DatabaseObject}
+     * @return {@link DatabaseObject} representing a database
      */
     public static DatabaseObject getDatabase(String dbName) {
         if(!databases.containsKey(dbName)) return null;

@@ -23,7 +23,7 @@ public class DatabaseObject {
         this.dbName = dbName;
         this.dbFile = dbFile;
         this.cache = new HashMap<>();
-        try { initCache(); } catch (IOException e) {}
+        try { initCache(); } catch (IOException ignored) {}
     }
 
     /**
@@ -38,18 +38,18 @@ public class DatabaseObject {
     }
 
     /**
-     * Get database name
-     * @return Database name
+     * Get name of {@link DatabaseObject}
+     * @return {@link String} name of {@link DatabaseObject}
      */
     public String getName() {
         return dbName;
     }
 
     /**
-     * Get value given key
-     * from cache
-     * @param key String key
-     * @return value corresponding to key
+     * Get the value corresponding to the given key.<br>
+     * (The value is pulled directly from the database cache)
+     * @param key {@link String} key of the value
+     * @return {@link String} value corresponding to the given key
      */
     public String getValue(String key) {
         if(!cache.containsKey(key)) return null;
@@ -57,10 +57,10 @@ public class DatabaseObject {
     }
 
     /**
-     * Get value given key as integer
-     * from cache
-     * @param key String key
-     * @return int value corresponding to key
+     * Get the value as an {@link Integer} corresponding to the given key.<br>
+     * (The value is pulled directly from the database cache)
+     * @param key {@link String} key of the value
+     * @return {@link Integer} value corresponding to the given key
      */
     public Integer getValueInt(String key) {
         if(!cache.containsKey(key)) return null;
@@ -68,10 +68,10 @@ public class DatabaseObject {
     }
 
     /**
-     * Get value given key as long
-     * from cache
-     * @param key String key
-     * @return long value corresponding to key
+     * Get the value as a {@link Long} corresponding to the given key.<br>
+     * (The value is pulled directly from the database cache)
+     * @param key {@link String} key of the value
+     * @return {@link Long} value corresponding to the given key
      */
     public Long getValueLong(String key) {
         if(!cache.containsKey(key)) return null;
@@ -79,10 +79,11 @@ public class DatabaseObject {
     }
 
     /**
-     * Update value at key, Add if key does not exist
-     * both database and cache
-     * @param key key to new value
-     * @param value new value
+     * Update the value with the given key.<br>
+     * If the key does not exist, it will perform the same action as {@link #addKey addKey} and simply add the key and value relationship.<br>
+     * (This updates the cache and the database file in a separate thread)
+     * @param key {@link String} key for the new value
+     * @param value {@link String} value to replace the old value
      */
     public void updateValue(String key, String value) {
         if(!cache.containsKey(key)) {
@@ -90,9 +91,7 @@ public class DatabaseObject {
             return;
         }
         cache.replace(key, value);
-        try {
-            updateToDb(key, value);
-        } catch (IOException e) {}
+        updateToDb(key, value);
     }
 
     /**
@@ -103,9 +102,7 @@ public class DatabaseObject {
      */
     public void addKey(String key, String value) {
         cache.put(key, value);
-        try {
-            updateToDb(key, value);
-        } catch (IOException e) {}
+        updateToDb(key, value);
     }
 
     /**
@@ -115,42 +112,52 @@ public class DatabaseObject {
      */
     public void removeKey(String key) {
         cache.remove(key);
-        try {
-            removeFromDb(key);
-        } catch (IOException e) {}
+        removeFromDb(key);
     }
 
     /**
-     * Update part of the database
-     * @param key key to update
-     * @param value new value
-     * @throws IOException for BufferedReader
+     * Runs an action inside a thread to update the database file with the new data
+     * @param key {@link String} key to update
+     * @param value new {@link String} value
      */
-    private void updateToDb(String key, String value) throws IOException {
-        BufferedReader bf = new BufferedReader( new FileReader(dbFile));
-        DataObject result = DataObject.fromJson(bf.readLine());
-        DataObject data = result.getObject("data");
-        data.put(key,value);
-        result.put("data", data);
-        FileWriter fw = new FileWriter(dbFile);
-        fw.write(result.toString());
-        fw.close();
+    private void updateToDb(String key, String value) {
+        Runnable update = () -> {
+            try {
+                BufferedReader bf = new BufferedReader(new FileReader(dbFile));
+                DataObject result = DataObject.fromJson(bf.readLine());
+                DataObject data = result.getObject("data");
+                data.put(key, value);
+                result.put("data", data);
+                FileWriter fw = new FileWriter(dbFile);
+                fw.write(result.toString());
+                fw.close();
+            } catch(IOException ioe) {
+                ioe.printStackTrace();
+            }
+        };
+        ThreadManagement.execute(update);
     }
 
     /**
-     * Remove part of the database
-     * @param key key to remove
-     * @throws IOException for BufferedReader
+     * Runs an action inside a thread to remove key to value relationship with the given key
+     * @param key {@link String} key to remove
      */
-    private void removeFromDb(String key) throws IOException {
-        BufferedReader bf = new BufferedReader( new FileReader(dbFile));
-        DataObject result = DataObject.fromJson(bf.readLine());
-        DataObject data = result.getObject("data");
-        data.remove(key);
-        result.put("data", data);
-        FileWriter fw = new FileWriter(dbFile);
-        fw.write(result.toString());
-        fw.close();
+    private void removeFromDb(String key) {
+        Runnable remove = () -> {
+            try {
+                BufferedReader bf = new BufferedReader( new FileReader(dbFile));
+                DataObject result = DataObject.fromJson(bf.readLine());
+                DataObject data = result.getObject("data");
+                data.remove(key);
+                result.put("data", data);
+                FileWriter fw = new FileWriter(dbFile);
+                fw.write(result.toString());
+                fw.close();
+            } catch(IOException ioe) {
+                ioe.printStackTrace();
+            }
+        };
+        ThreadManagement.execute(remove);
     }
 
 }

@@ -20,7 +20,44 @@ An Example of where this kind of database can be used may be to keep track of cu
 
 Latest Release: [Github Releases](https://github.com/BooleanCube/DiscordDB/releases)
 
+Replace `VERSION` with the latest release in Jitpack. If you want to use SNAPSHOTS, please follow the instructions on the [Jitpack page](https://jitpack.io/#BooleanCube/DiscordDB)
 
+#### Dependency
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.github.BooleanCube</groupId>
+        <artifactId>DiscordDB</artifactId>
+        <version>VERSION</version>
+    </dependency>
+</dependencies>
+```
+#### Repository
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+### Gradle
+#### Dependency
+```gradle
+dependencies {
+    implementation 'com.github.BooleanCube:DiscordDB:VERSION'
+}
+```
+#### Repository
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
 
 ## Documentation
 `DatabaseManager` is the main database manager class which will give you access to every database. <br>

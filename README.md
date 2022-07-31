@@ -15,6 +15,16 @@ An Example of where this kind of database can be used may be to keep track of cu
 }
 ```
 
+----
+
+## Documentation
+`DatabaseManager` is the main database manager class which will give you access to every database. <br>
+`DatabaseObject` is the database object class with all the methods to access the data within the database.
+
+Learn more about the Library Usage from the [documentation page](https://booleancube.github.io/projects/discorddb/1-0-7/discorddb/package-summary.html).
+
+----
+
 ## Installation
 [![](https://jitpack.io/v/BooleanCube/DiscordDB.svg)](https://jitpack.io/#BooleanCube/DiscordDB)
 
@@ -59,12 +69,6 @@ allprojects {
     }
 }
 ```
-
-## Documentation
-`DatabaseManager` is the main database manager class which will give you access to every database. <br>
-`DatabaseObject` is the database object class with all the methods to access the data within the database.
-
-Learn more about the Library Usage from the [documentation page](https://booleancube.github.io/projects/discorddb/1-0-7/discorddb/package-summary.html).
 
 ----
 

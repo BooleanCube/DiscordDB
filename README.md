@@ -25,6 +25,8 @@ An Example of where this kind of database can be used may be to keep track of cu
 
 Learn more about the Library Usage from the [documentation page](https://booleancube.github.io/projects/discorddb/1-0-7/discorddb/package-summary.html).
 
+You can also visit the [wiki page](https://github.com/BooleanCube/DiscordDB/wiki) to get more specific materials, in-depth information and tools to learn about DiscordDB.
+
 ----
 
 ## Installation

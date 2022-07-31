@@ -1,3 +1,5 @@
+<img align="right" src="https://user-images.githubusercontent.com/47650058/182009174-f8138d3b-2099-4f72-bc25-29528298abd2.png" alt="DiscordDB" height="200" width="200">
+
 # DiscordDB
 > A simple database library for JDA Bot Developers
 

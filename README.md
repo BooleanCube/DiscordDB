@@ -29,6 +29,15 @@ You can also visit the [wiki page](https://github.com/BooleanCube/DiscordDB/wiki
 
 ----
 
+## Inner Workings
+DiscordDB is a database library for JDA Bot Developers and is fast because it caches all the elements and retrieves data fast from the cache and then stores all of the data in a file. So, upon application termination all of the data will be stored in JSON files using JDA's JSON utilities and upon application boot the stored data will be stored in the cache which will then be updated and used.
+
+DiscordDB is very simple to use and easy to understand because of the minimal code required to be written. Visit the documentation to learn more about the API.
+
+JDA Github Link: https://github.com/DV8FromTheWorld/JDA
+
+----
+
 ## Installation
 [![](https://jitpack.io/v/BooleanCube/DiscordDB.svg)](https://jitpack.io/#BooleanCube/DiscordDB)
 

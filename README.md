@@ -3,19 +3,8 @@
 # DiscordDB
 > A simple database library for JDA Bot Developers
 
-Discord DB is a database wrapper library for JDA Bot Developers. Currently the library is very limited in terms of what it can do because it is a **Work In Progress**.
-
-## Limitations
-Currently, you can only create database tables with 2 String fields and nothing else which makes it very limited. <br>
-An Example of where this kind of database can be used may be to keep track of currency like such:
-```json
-{
-  "data": {
-    "12345678901234567890": "69",
-    "23456789012345678901": "420"
-  }
-}
-```
+DiscordDB is a very simple database wrapper library for JDA Bot Developers. DiscordDB is perfect for developers who want a quick solution to storing data for their users and don't want to use any type of SQL-based database or cloud-based database. Make developing discord bots extremely easy with DiscordDB and store data without a problem!<br>
+**DISCLAIMER:** DiscordDB is not responsible for any damage done to your database files and will not be able to recover lost data.
 
 ----
 

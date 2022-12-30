@@ -10,17 +10,17 @@ import java.nio.file.FileAlreadyExistsException;
 import java.util.HashMap;
 
 /**
- * Database Manager for Discord DB library
+ * Database Manager for Discord DB library<br>
+ * Manages all cached data from the stored databases
  */
 public class DatabaseManager {
 
     private static final HashMap<String, DatabaseObject> databases;
-    private static final String directory = ".files/";
 
     // Static block to init all the current databases and caches
     static {
         databases = new HashMap<>();
-        File filesFolder = new File(directory);
+        File filesFolder = new File(Constant.fileDirectory);
         if(!filesFolder.exists()) filesFolder.mkdir();
         File[] files = filesFolder.listFiles();
         if(files != null) {
@@ -36,28 +36,29 @@ public class DatabaseManager {
      * Creates a {@link DatabaseObject} with a designated file and adds it to the database map
      * @param dbName name of the {@link DatabaseObject}
      * @return boolean indicating success or failure of {@link DatabaseObject} creation
-     * @throws LimitExceededException cannot create more than 10 databases per project for simplicity
+     * @throws LimitExceededException cannot create more than 15 databases per project for simplicity
      * @throws FileAlreadyExistsException no duplicate databases can be created
      * @throws FileNotFoundException could not find database file directory
      */
     public static boolean createDatabase(String dbName) throws LimitExceededException, FileAlreadyExistsException, FileNotFoundException {
         if(dbName == null)
             throw new NullPointerException("The database name cannot be null!");
-        if(databases.size() >= 10)
-            throw new LimitExceededException("Cannot create more than 10 databases!");
+        if(databases.size() >= Constant.maxDatabaseLimit)
+            throw new LimitExceededException("Cannot create more than " + Constant.maxDatabaseLimit + " databases!");
         if(databases.containsKey(dbName))
             return true;
 
         try {
-            File dbFile = new File(directory + dbName + ".json");
+            File dbFile = new File(Constant.fileDirectory + dbName + ".json");
             if(!dbFile.exists()) {
                 if(dbFile.createNewFile()) {
                     FileWriter fr = new FileWriter(dbFile);
                     fr.write("{\"data\":{}}");
                     fr.close();
                     databases.put(dbName, new DatabaseObject(dbName, dbFile));
-                    System.out.println("Successfully created the database file!");
+                    System.out.println("Successfully created the " + dbName + " database file!");
                 }
+                else throw new RuntimeException("This database file could not be created! This could be due to lack of permission or you can just try again!");
             }
             else throw new FileAlreadyExistsException("This database file has already been created!");
         } catch(IOException ignored) {
@@ -80,9 +81,10 @@ public class DatabaseManager {
     /**
      * Deletes every database including all the data within the databases.<br>
      * <b>(WARNING! THIS STEP CANNOT BE UNDONE!)</b>
+     * @return boolean value indicating whether all {@link DatabaseObject} objects were deleted successfully or not.
      */
     public static boolean clearDatabases() {
-        File filesFolder = new File("files/");
+        File filesFolder = new File(Constant.fileDirectory);
         if(!filesFolder.exists()) return true;
         boolean ret = true;
         for(File file : filesFolder.listFiles()) {
@@ -96,7 +98,7 @@ public class DatabaseManager {
      * Delete a database and all of its data from the database map.<br>
      * <b>(WARNING! THIS ACTION CANNOT BE UNDONE!)</b>
      * @param dbName name of {@link DatabaseObject}
-     * @return boolean indicating whether the {@link DatabaseObject} was successfully deleted or not
+     * @return boolean value indicating whether the {@link DatabaseObject} was successfully deleted or not
      */
     public static boolean deleteDatabase(String dbName) {
         DatabaseObject database = databases.get(dbName);

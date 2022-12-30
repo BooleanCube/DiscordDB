@@ -4,7 +4,7 @@ authors:
 - name: "BooleanCube"
   orcid: "https://booleancube.github.io/"
 title: "DiscordDB"
-version: "v1.0.7"
+version: "v1.1.2"
 license: MIT
 date-released: 2022-07-01
 url: "https://github.com/BooleanCube/DiscordDB"

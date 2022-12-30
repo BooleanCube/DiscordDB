@@ -27,17 +27,12 @@ public class ManagerTests {
         } catch(NullPointerException npe) { Assert.assertTrue(true); }
         Assert.assertTrue("Could not create database1", DatabaseManager.createDatabase("database1"));
         Assert.assertTrue("Could not ignore duplicate database", DatabaseManager.createDatabase("database1"));
-        Assert.assertTrue("Could not create database2", DatabaseManager.createDatabase("database2"));
-        Assert.assertTrue("Could not create database3", DatabaseManager.createDatabase("database3"));
-        Assert.assertTrue("Could not create database4", DatabaseManager.createDatabase("database4"));
-        Assert.assertTrue("Could not create database5", DatabaseManager.createDatabase("database5"));
-        Assert.assertTrue("Could not create database6", DatabaseManager.createDatabase("database6"));
-        Assert.assertTrue("Could not create database7", DatabaseManager.createDatabase("database7"));
-        Assert.assertTrue("Could not create database8", DatabaseManager.createDatabase("database8"));
-        Assert.assertTrue("Could not create database9", DatabaseManager.createDatabase("database9"));
-        Assert.assertTrue("Could not create database10", DatabaseManager.createDatabase("database10"));
+        for(int i=2; i<15; i++) {
+            Assert.assertTrue("Could not create database"+i, DatabaseManager.createDatabase("database"+i));
+        }
+        Assert.assertTrue("Could not create database15", DatabaseManager.createDatabase("database15"));
         try {
-            DatabaseManager.createDatabase("database11");
+            DatabaseManager.createDatabase("database16");
             Assert.fail("Max database limit was broken");
         } catch(LimitExceededException lee) { Assert.assertTrue(true); }
 

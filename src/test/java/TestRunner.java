@@ -31,7 +31,7 @@ public class TestRunner {
      * Run all the {@link discorddb.DatabaseObject} tests
      */
     static void runDatabaseTests() {
-        Result database = JUnitCore.runClasses(DatabaseTests.class);
+        Result database = JUnitCore.runClasses(DatabaseObjectTests.class);
         System.out.println("Database Object Testing =>");
         for(Failure failure : database.getFailures())
             System.out.println("---> " + failure.toString());

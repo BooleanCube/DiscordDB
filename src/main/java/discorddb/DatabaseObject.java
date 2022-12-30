@@ -7,14 +7,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
-/**
- * Model for Database Object
- */
 public class DatabaseObject {
 
     private final String dbName;
     private final File dbFile;
-    private final HashMap<String, String> cache;
+    private final HashMap<String, Object> cache;
 
     /**
      * Constructor to initialize the object data
@@ -36,11 +33,11 @@ public class DatabaseObject {
         BufferedReader bf = new BufferedReader(new FileReader(dbFile));
         DataObject data = DataObject.fromJson(bf.readLine()).getObject("data");
         for(String key : data.keys())
-            cache.put(key, data.getString(key));
+            cache.put(key, data.get(key));
     }
 
     /**
-     * Delete a {@link DatabaseObject} and all of the data within the database. This will clear the cache and delete the file.<br>
+     * Delete a {@link DatabaseObject} and all the data within the database. This will clear the cache and delete the file.<br>
      * <b>(WARNING! THIS STEP CANNOT BE UNDONE!)</b>
      * @return boolean indicating success of failure of the deletion of the {@link DatabaseObject}
      */
@@ -59,14 +56,14 @@ public class DatabaseObject {
 
     /**
      * Get JSON {@link File} of {@link DatabaseObject}
-     * @return JSON {@link File} with all of the data
+     * @return JSON {@link File} with all the data
      */
     public File getFile() {
         return dbFile;
     }
 
     /**
-     * Get all of the keys stored inside the database
+     * Get all the keys stored inside the database
      * @return {@link Set <String>} string set of keys
      */
     public Set<String> getKeys() {
@@ -74,11 +71,33 @@ public class DatabaseObject {
     }
 
     /**
-     * Get all of the values stored inside the database
+     * Get all the values stored inside the database
      * @return {@link Collection <String>} string collection of values
      */
-    public Collection<String> getValues() {
+    public Collection<Object> getValues() {
         return cache.values();
+    }
+
+    /**
+     * Get the value corresponding to the given key.<br>
+     * (The value is pulled directly from the database cache)
+     * @param key {@link String} key of the value
+     * @return {@link Object} value corresponding to the given key
+     */
+    public Object getValue(String key) {
+        if(!cache.containsKey(key)) return null;
+        return cache.get(key);
+    }
+
+    /**
+     * Get the value corresponding to the given key.<br>
+     * (The value is pulled directly from the database cache)
+     * @param key {@link String} key of the value
+     * @return {@link DataObject} value corresponding to the given key
+     */
+    public DataObject getJSONValue(String key) {
+        if(!cache.containsKey(key)) return null;
+        return (DataObject) cache.get(key);
     }
 
     /**
@@ -87,31 +106,33 @@ public class DatabaseObject {
      * @param key {@link String} key of the value
      * @return {@link String} value corresponding to the given key
      */
-    public String getValue(String key) {
+    public String getStringValue(String key) {
         if(!cache.containsKey(key)) return null;
-        return cache.get(key);
+        return cache.get(key).toString();
     }
 
     /**
-     * Get the value as an {@link Integer} corresponding to the given key.<br>
+     * Get the value corresponding to the given key.<br>
      * (The value is pulled directly from the database cache)
      * @param key {@link String} key of the value
      * @return {@link Integer} value corresponding to the given key
      */
-    public Integer getValueInt(String key) {
-        if(!cache.containsKey(key)) return null;
-        return Integer.parseInt(cache.get(key));
+    public Integer getIntegerValue(String key) {
+        String value = this.getStringValue(key);
+        if(value == null) return null;
+        return Integer.parseInt(value);
     }
 
     /**
-     * Get the value as a {@link Long} corresponding to the given key.<br>
+     * Get the value corresponding to the given key.<br>
      * (The value is pulled directly from the database cache)
      * @param key {@link String} key of the value
      * @return {@link Long} value corresponding to the given key
      */
-    public Long getValueLong(String key) {
-        if(!cache.containsKey(key)) return null;
-        return Long.parseLong(cache.get(key));
+    public Long getLongValue(String key) {
+        String value = this.getStringValue(key);
+        if(value == null) return null;
+        return Long.parseLong(value);
     }
 
     /**
@@ -121,13 +142,13 @@ public class DatabaseObject {
      * @param key {@link String} key for the new value
      * @param value {@link String} value to replace the old value
      */
-    public void updateValue(String key, String value) {
+    public void updateValue(String key, Object value) {
         if(!cache.containsKey(key)) {
-            addKey(key, value);
+            this.addKey(key, value);
             return;
         }
         cache.replace(key, value);
-        updateToDb(key, value);
+        this.updateToDb(key, value);
     }
 
     /**
@@ -136,7 +157,7 @@ public class DatabaseObject {
      * @param key {@link String} key of value
      * @param value {@link String} value corresponding to key
      */
-    public void addKey(String key, String value) {
+    public void addKey(String key, Object value) {
         cache.put(key, value);
         updateToDb(key, value);
     }
@@ -156,7 +177,7 @@ public class DatabaseObject {
      * @param key {@link String} key to update
      * @param value new {@link String} value
      */
-    private void updateToDb(String key, String value) {
+    private void updateToDb(String key, Object value) {
         Runnable update = () -> {
             try {
                 BufferedReader bf = new BufferedReader(new FileReader(dbFile));
@@ -167,6 +188,7 @@ public class DatabaseObject {
                 FileWriter fw = new FileWriter(dbFile);
                 fw.write(result.toString());
                 fw.close();
+                bf.close();
             } catch(IOException ioe) {
                 ioe.printStackTrace();
             }
@@ -189,6 +211,7 @@ public class DatabaseObject {
                 FileWriter fw = new FileWriter(dbFile);
                 fw.write(result.toString());
                 fw.close();
+                bf.close();
             } catch(IOException ioe) {
                 ioe.printStackTrace();
             }

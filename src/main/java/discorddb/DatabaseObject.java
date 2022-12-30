@@ -7,6 +7,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * Model for Database Object<br>
+ * A DatabaseObject represents a JSON file that stores data in a key-value format.<br>
+ * It provides methods for reading, writing, and deleting data within the database.<br>
+ * It also maintains a cache of the data in memory for faster access.
+ */
 public class DatabaseObject {
 
     private final String dbName;

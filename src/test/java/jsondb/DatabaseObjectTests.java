@@ -1,19 +1,19 @@
-import discorddb.DatabaseManager;
-import discorddb.DatabaseObject;
+package jsondb;
+
+import discorddb.jsondb.DatabaseManager;
+import discorddb.jsondb.DatabaseObject;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Optional;
-
 /**
- * Contains all the tests for {@link discorddb.DatabaseObject}
+ * Contains all the tests for {@link DatabaseObject}
  */
 public class DatabaseObjectTests {
 
     /**
-     * Testing to check if every feature in {@link discorddb.DatabaseObject} is working perfectly
+     * Testing to check if every feature in {@link DatabaseObject} is working perfectly
      */
     @Test
     public void databaseTests() {
@@ -31,9 +31,9 @@ public class DatabaseObjectTests {
         database.addKey("numbers", 69);
         Assert.assertEquals("You can't store integers in the database", 69, database.getValue("numbers"));
 
-        database.addKey("json", DataObject.fromJson("{\"first\":\"json\", \"second\":\"object\"}"));
-        DataObject jsonObj = (DataObject) (database.getValue("json"));
-        Assert.assertEquals("you can't store json objects in the database", "json", jsonObj.getString("first"));
+        database.addKey("jsondb", DataObject.fromJson("{\"first\":\"json\", \"second\":\"object\"}"));
+        DataObject jsonObj = (DataObject) (database.getValue("jsondb"));
+        Assert.assertEquals("you can't store json objects in the database", "jsondb", jsonObj.getString("first"));
         Assert.assertEquals("you can't store json objects in the database", "object", jsonObj.getString("second"));
 
         database.addKey("json2", DataArray.fromJson("[\"string\", \"array\"]"));

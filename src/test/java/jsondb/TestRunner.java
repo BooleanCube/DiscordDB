@@ -1,3 +1,7 @@
+package jsondb;
+
+import discorddb.jsondb.DatabaseManager;
+import discorddb.jsondb.DatabaseObject;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -17,7 +21,7 @@ public class TestRunner {
     }
 
     /**
-     * Run all the {@link discorddb.DatabaseManager} tests
+     * Run all the {@link DatabaseManager} tests
      */
     static void runManagerTests() {
         Result manager = JUnitCore.runClasses(ManagerTests.class);
@@ -28,7 +32,7 @@ public class TestRunner {
     }
 
     /**
-     * Run all the {@link discorddb.DatabaseObject} tests
+     * Run all the {@link DatabaseObject} tests
      */
     static void runDatabaseTests() {
         Result database = JUnitCore.runClasses(DatabaseObjectTests.class);

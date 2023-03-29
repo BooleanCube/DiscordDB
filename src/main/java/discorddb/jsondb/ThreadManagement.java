@@ -1,10 +1,10 @@
-package discorddb;
+package discorddb.jsondb;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Thread Management Class<br>
- * Manages the thread pooling system that will be used to update database files.
+ * Manages the thread pooling system that will be used to update json database files.
  */
 class ThreadManagement {
 

@@ -1,7 +1,7 @@
-package discorddb;
+package discorddb.jsondb;
 
 /**
- * Constant class for static final variables
+ * discorddb.jsondb Constant class for static final variables
  */
 class Constant {
 

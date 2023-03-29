@@ -1,4 +1,6 @@
-import discorddb.DatabaseManager;
+package jsondb;
+
+import discorddb.jsondb.DatabaseManager;
 import org.junit.Assert;
 import org.junit.Test;
 

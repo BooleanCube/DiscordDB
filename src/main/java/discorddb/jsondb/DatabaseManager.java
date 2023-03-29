@@ -1,4 +1,4 @@
-package discorddb;
+package discorddb.jsondb;
 
 
 import javax.naming.LimitExceededException;
@@ -10,8 +10,8 @@ import java.nio.file.FileAlreadyExistsException;
 import java.util.HashMap;
 
 /**
- * Database Manager for Discord DB library<br>
- * Manages all cached data from the stored databases
+ * JSON Database Manager for Discord DB library<br>
+ * Manages all cached data from the stored JSON databases.
  */
 public class DatabaseManager {
 

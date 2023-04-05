@@ -1,7 +1,7 @@
-package singular;
+package jsondb;
 
-import discorddb.DatabaseManager;
-import discorddb.DatabaseObject;
+import discorddb.jsondb.DatabaseManager;
+import discorddb.jsondb.DatabaseObject;
 
 import javax.naming.LimitExceededException;
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ public class CurrencyDatabase {
     public static void setupDatabases() {
         try {
             DatabaseManager.createDatabase("currency");
-            DatabaseObject currency = DatabaseManager.getDatabase("currency");
+            currency = DatabaseManager.getDatabase("currency");
         } catch (LimitExceededException | FileAlreadyExistsException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -25,7 +25,7 @@ public class CurrencyDatabase {
             currency.addKey(id, "0");
             return 0;
         }
-        return currency.getValueInt(id);
+        return currency.getIntegerValue(id);
     }
 
     public static void addToUserBalance(String id, int increment) {

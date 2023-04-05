@@ -1,4 +1,4 @@
-package singular;
+package jsondb;
 
 public class UsageExample {
 

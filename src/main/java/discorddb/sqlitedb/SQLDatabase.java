@@ -45,7 +45,7 @@ public class SQLDatabase {
      * @return true if the table was created successfully, false otherwise.
      * @throws SQLException If an error occurs while executing the SQL command.
      */
-    public static boolean createTable(String tableName, String[] columns) throws SQLException {
+    public static boolean createTable(String tableName, String... columns) throws SQLException {
         if(tableName == null || tableName.equals(""))
             throw new NullPointerException("The table name can't be empty or null!");
         if(tables.containsKey(tableName))

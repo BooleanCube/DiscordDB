@@ -36,29 +36,35 @@ public class DatabaseTable {
      * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
      * @throws SQLException for statement sql command execution
      */
-    public boolean insertQuery(String... values) throws SQLException {
-        return !statement.execute(
-                String.format("INSERT INTO %s VALUES (%s)",
-                        this.tableName,
-                        String.join(", ", values)
-                )
-        );
+    public boolean insertQuery(String... values) {
+        try {
+            statement.execute(
+                    String.format("INSERT INTO %s VALUES (%s)",
+                            this.tableName,
+                            String.join(", ", values)
+                    )
+            );
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
      * Searches for rows in the table that matches the specified
      * key value, and returns the values of the specified parameters
      * for those rows.
-     * @param parameterNames specified String array of parameter names to return the parameter values of
      * @param keyName name of the key parameter that you want to search for the row by
      * @param location the value you want to match for the key
+     * @param columns list of strings holding the column names that are being queried
      * @return 2D Object array of all the column values in all selected rows.
      * @throws SQLException for the sql command execution
      */
-    public Object[][] searchQuery(String[] parameterNames, String keyName, String location) throws SQLException {
+    public Object[][] searchQuery(String keyName, String location, String... columns) throws SQLException {
         ResultSet result = statement.executeQuery(
                 String.format("SELECT %s FROM %s WHERE %s=%s",
-                        String.join(", ", parameterNames),
+                        String.join(", ", columns),
                         this.tableName,
                         keyName,
                         location
@@ -68,11 +74,11 @@ public class DatabaseTable {
         result.last();
         int rows = result.getRow();
         result.beforeFirst();
-        Object[][] values = new Object[rows][parameterNames.length];
+        Object[][] values = new Object[rows][columns.length];
 
         for(int r=1; r<=rows; r++) {
             result.next();
-            for(int i=1; i<=parameterNames.length; i++) {
+            for(int i=1; i<=columns.length; i++) {
                 values[r-1][i-1] = result.getObject(i);
             }
         }
@@ -89,7 +95,7 @@ public class DatabaseTable {
      * @return 2D Object array of all the column values in all selected rows.
      * @throws SQLException for sql command execution
      */
-    public Object[][] searchQuery(String keyName, String location) throws SQLException {
+    public Object[][] getRows(String keyName, String location) throws SQLException {
         ResultSet result = statement.executeQuery(
                 String.format("SELECT * FROM %s WHERE %s=%s",
                         this.tableName,
@@ -114,6 +120,35 @@ public class DatabaseTable {
     }
 
     /**
+     * Returns an entire column of values for ALL rows in the table.
+     * @param columns list of Strings representing the column names being queried
+     * @return 2D Object matrix with the values of each column in all rows
+     * @throws SQLException for sql command execution
+     */
+    public Object[][] getColumns(String... columns) throws SQLException {
+        ResultSet result = statement.executeQuery(
+                String.format("SELECT %s FROM %s",
+                        String.join(", ", columns),
+                        this.tableName
+                )
+        );
+
+        result.last();
+        int rows = result.getRow();
+        result.beforeFirst();
+        Object[][] values = new Object[rows][columns.length];
+
+        for(int r=1; r<=rows; r++) {
+            result.next();
+            for(int i=1; i<=columns.length; i++) {
+                values[r-1][i-1] = result.getObject(i);
+            }
+        }
+
+        return values;
+    }
+
+    /**
      * Updates the value of a specified column for the row
      * that matches the specified key value.
      * @param columnName String array of all column parameter names
@@ -123,20 +158,53 @@ public class DatabaseTable {
      * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
      * @throws SQLException for sql command execution
      */
-    public boolean updateQuery(String[] columnName, String[] columnValue, String keyName, String location) throws SQLException {
+    public boolean updateQuery(String[] columnName, String[] columnValue, String keyName, String location) {
         StringBuilder columns = new StringBuilder();
         for(int i=0; i<columnName.length; i++) {
             columns.append(columnName[i]).append("=").append(columnValue[i]).append(",");
         }
 
-        return !statement.execute(
-                String.format("UPDATE %s SET %s WHERE %s=%s",
-                        this.tableName,
-                        columns.substring(0, columns.length()-1),
-                        keyName,
-                        location
-                )
-        );
+        try {
+            statement.execute(
+                    String.format("UPDATE %s SET %s WHERE %s=%s",
+                            this.tableName,
+                            columns.substring(0, columns.length()-1),
+                            keyName,
+                            location
+                    )
+            );
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Updates the value of a specified column for the row
+     * that matches the specified key value. <br>
+     * Note: The column pair String list need to be formatted as `key=value`. For example: `"name='John Smith'"`
+     * @param keyName specified String containing the key parameter name
+     * @param location specified String containing the key parameter value to match
+     * @param columnPairs list of Strings that contain column name and value pairs formatted as `key=value`.
+     * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
+     * @throws SQLException for sql command execution
+     */
+    public boolean updateQuery(String keyName, String location, String... columnPairs) {
+        try {
+            statement.execute(
+                    String.format("UPDATE %s SET %s WHERE %s=%s",
+                            this.tableName,
+                            String.join(", ", columnPairs),
+                            keyName,
+                            location
+                    )
+            );
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -147,14 +215,20 @@ public class DatabaseTable {
      * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
      * @throws SQLException for sql command execution
      */
-    public boolean deleteQuery(String keyName, String location) throws SQLException {
-        return !statement.execute(
-                String.format("DELETE FROM %s WHERE %s=%s",
-                        this.tableName,
-                        keyName,
-                        location
-                )
-        );
+    public boolean deleteQuery(String keyName, String location) {
+        try {
+            statement.execute(
+                    String.format("DELETE FROM %s WHERE %s=%s",
+                            this.tableName,
+                            keyName,
+                            location
+                    )
+            );
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

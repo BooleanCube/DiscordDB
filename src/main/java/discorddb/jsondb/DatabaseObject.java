@@ -70,7 +70,7 @@ public class DatabaseObject {
 
     /**
      * Get all the keys stored inside the database
-     * @return {@link Set <String>} string set of keys
+     * @return {@link Set<String>} string set of keys
      */
     public Set<String> getKeys() {
         return cache.keySet();
@@ -78,7 +78,7 @@ public class DatabaseObject {
 
     /**
      * Get all the values stored inside the database
-     * @return {@link Collection <String>} string collection of values
+     * @return {@link Collection<String>} string collection of values
      */
     public Collection<Object> getValues() {
         return cache.values();

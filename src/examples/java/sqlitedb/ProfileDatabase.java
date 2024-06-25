@@ -11,7 +11,7 @@ public class ProfileDatabase {
 
     public static void setupTables() {
         try {
-            SQLDatabase.createTable("profiles", "id BIGINT PRIMARY KEY", "username VARCHAR(255)", "tag INT", "avatar TEXT");
+            SQLDatabase.createTable("profiles", "id bigint primary key not null unique", "username varchar(255)", "tag int", "avatar text");
             profiles = SQLDatabase.getTable("profiles");
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -19,7 +19,7 @@ public class ProfileDatabase {
     }
 
     public static String getUsername(String id) throws SQLException {
-        return (String)profiles.searchQuery("id", id)[0][1];
+        return (String)profiles.getRows("id", id)[0][1];
     }
 
     public static int getTag(String id) throws SQLException {
@@ -27,7 +27,7 @@ public class ProfileDatabase {
     }
 
     public static String getAvatar(String id) throws SQLException {
-        return (String)profiles.searchQuery("id", id)[0][3];
+        return (String)profiles.getRows("id", id)[0][3];
     }
 
     public static void addProfile(String id, String username, int tag, String avatar) {

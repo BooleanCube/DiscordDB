@@ -11,35 +11,35 @@ public class ProfileDatabase {
 
     public static void setupTables() {
         try {
-            SQLDatabase.createTable("profiles", "id int primary key", "username varchar(255)", "tag int", "avatar text");
+            SQLDatabase.createTable("profiles", "id BIGINT PRIMARY KEY", "username VARCHAR(255)", "tag INT", "avatar TEXT");
             profiles = SQLDatabase.getTable("profiles");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static int getUsername(String id) throws SQLException {
-        return (int)profiles.searchQuery("id", id)[0][1];
+    public static String getUsername(String id) throws SQLException {
+        return (String)profiles.searchQuery("id", id)[0][1];
     }
 
     public static int getTag(String id) throws SQLException {
-        return (int)profiles.searchQuery("id", id)[0][2];
+        return (int)profiles.searchQuery("id", id, "tag")[0][0];
     }
 
-    public static int getAvatar(String id) throws SQLException {
-        return (int)profiles.searchQuery("id", id)[0][3];
+    public static String getAvatar(String id) throws SQLException {
+        return (String)profiles.searchQuery("id", id)[0][3];
     }
 
-    public static void addProfile(String id, String username, int tag, String avatar) throws SQLException {
-        profiles.insertQuery(id, username, Integer.toString(tag), avatar);
+    public static void addProfile(String id, String username, int tag, String avatar) {
+        profiles.insertQuery(id, username , Integer.toString(tag), avatar);
     }
 
-    public static void updateAvatar(String id, String avatar) throws SQLException {
-        profiles.updateQuery(new String[]{"avatar"}, new String[]{avatar}, "id", id);
+    public static void updateAvatar(String id, String avatar) {
+        profiles.updateQuery( "id", id, String.format("avatar=%s", avatar));
     }
 
-    public static void updateUsername(String id, String username) throws SQLException {
-        profiles.updateQuery(new String[]{"username"}, new String[]{username}, "id", id);
+    public static void updateUsername(String id, String username) {
+        profiles.updateQuery("id", id, String.format("username=%s", username));
     }
 
 }

@@ -16,6 +16,11 @@ public class SQLDatabase {
     private static final Connection connection;
     private static final Statement statement;
 
+    /**
+     * SQLDatabase Default Constructor
+     */
+    private SQLDatabase() {}
+
     private static final HashMap<String, DatabaseTable> tables;
 
     static {

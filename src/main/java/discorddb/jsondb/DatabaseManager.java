@@ -17,6 +17,11 @@ public class DatabaseManager {
 
     private static final HashMap<String, DatabaseObject> databases;
 
+    /**
+     * DatabaseManager Default Constructor
+     */
+    private DatabaseManager() {}
+
     // Static block to init all the current databases and caches
     static {
         databases = new HashMap<>();

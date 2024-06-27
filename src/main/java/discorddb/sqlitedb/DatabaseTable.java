@@ -8,7 +8,7 @@ import java.sql.*;
  * updating data, and deleting data.
  *
  * @see #insertQuery(String[] columns)
- * @see #searchQuery(String keyName, String location)
+ * @see #getRows(String keyName, String location)
  */
 public class DatabaseTable {
 
@@ -34,7 +34,6 @@ public class DatabaseTable {
      * Inserts a new row of data into the table with the specified values
      * @param values array of column values that you want to set in the correct order
      * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
-     * @throws SQLException for statement sql command execution
      */
     public boolean insertQuery(String... values) {
         try {
@@ -156,7 +155,6 @@ public class DatabaseTable {
      * @param keyName specified String containing the key parameter name
      * @param location specified String containing the key parameter value to match
      * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
-     * @throws SQLException for sql command execution
      */
     public boolean updateQuery(String[] columnName, String[] columnValue, String keyName, String location) {
         StringBuilder columns = new StringBuilder();
@@ -188,7 +186,6 @@ public class DatabaseTable {
      * @param location specified String containing the key parameter value to match
      * @param columnPairs list of Strings that contain column name and value pairs formatted as `key=value`.
      * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
-     * @throws SQLException for sql command execution
      */
     public boolean updateQuery(String keyName, String location, String... columnPairs) {
         try {
@@ -213,7 +210,6 @@ public class DatabaseTable {
      * @param keyName specified String key parameter name
      * @param location specified String key parameter value to match
      * @return boolean indicating whether the sql command execution worked properly (didn't return a {@link ResultSet})
-     * @throws SQLException for sql command execution
      */
     public boolean deleteQuery(String keyName, String location) {
         try {
